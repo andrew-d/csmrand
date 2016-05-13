@@ -6,9 +6,12 @@ import (
 	mrand "math/rand"
 )
 
-type csRandSource struct{}
+// A math/rand.Source that wraps crypto/rand.Reader.
+type CSRandSource struct{}
 
-func (r csRandSource) Int63() int64 {
+// Implement the math/rand.Source interface.  Will panic if an error occurs
+// when reading the underlying Reader.
+func (r CSRandSource) Int63() int64 {
 	var i int64
 
 	err := binary.Read(rand.Reader, binary.LittleEndian, &i)
@@ -19,8 +22,9 @@ func (r csRandSource) Int63() int64 {
 	return (i & 0x7fffffffffffffff)
 }
 
-func (r csRandSource) Seed(s int64) {
+// Implement the math/rand.Source interface.  Does nothing.
+func (r CSRandSource) Seed(s int64) {
 	// Do nothing
 }
 
-var _ mrand.Source = csRandSource{}
+var _ mrand.Source = CSRandSource{}

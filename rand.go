@@ -5,67 +5,65 @@ import (
 )
 
 var (
-	source   mrand.Source
-	randInst *mrand.Rand
+	globalRand *mrand.Rand
 )
 
 func init() {
-	source = csRandSource{}
-	randInst = mrand.New(source)
+	globalRand = mrand.New(CSRandSource{})
 }
 
 func ExpFloat64() float64 {
-	return randInst.ExpFloat64()
+	return globalRand.ExpFloat64()
 }
 
 func Float32() float32 {
-	return randInst.Float32()
+	return globalRand.Float32()
 }
 
 func Float64() float64 {
-	return randInst.Float64()
+	return globalRand.Float64()
 }
 
 func Int() int {
-	return randInst.Int()
+	return globalRand.Int()
 }
 
 func Int31() int32 {
-	return randInst.Int31()
+	return globalRand.Int31()
 }
 
 func Int31n(n int32) int32 {
-	return randInst.Int31n(n)
+	return globalRand.Int31n(n)
 }
 
 func Int63() int64 {
-	return randInst.Int63()
+	return globalRand.Int63()
 }
 
 func Int63n(n int64) int64 {
-	return randInst.Int63n(n)
+	return globalRand.Int63n(n)
 }
 
 func Intn(n int) int {
-	return randInst.Intn(n)
+	return globalRand.Intn(n)
 }
 
 func NormFloat64() float64 {
-	return randInst.NormFloat64()
+	return globalRand.NormFloat64()
 }
 
 func Perm(n int) []int {
-	return randInst.Perm(n)
+	return globalRand.Perm(n)
 }
 
 func Read(p []byte) (n int, err error) {
-	return randInst.Read(p)
+	return globalRand.Read(p)
 }
 
 func Seed(seed int64) {
-	randInst.Seed(seed)
+	globalRand.Seed(seed)
 }
 
 func Uint32() uint32 {
-	return randInst.Uint32()
+	return globalRand.Uint32()
 }
