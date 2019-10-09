@@ -21,4 +21,8 @@ func (r CSRandSource) Uint64() uint64 {
 	return i
 }
 
+func Uint64() uint64 {
+	return globalRand.Uint64()
+}
+
 var _ mrand.Source64 = CSRandSource{}
