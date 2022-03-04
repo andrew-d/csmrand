@@ -67,3 +67,11 @@ func Seed(seed int64) {
 func Uint32() uint32 {
 	return globalRand.Uint32()
 }
+
+func Uint64() uint64 {
+	return globalRand.Uint64()
+}
+
+func Shuffle(n int, swap func(i, j int)) {
+	globalRand.Shuffle(n, swap)
+}
