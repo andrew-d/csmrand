@@ -41,23 +41,30 @@ func BenchmarkMathGlobalFloat64(b *testing.B) {
 }
 
 func BenchmarkLocalFloat64(b *testing.B) {
-	b.ReportAllocs()
-	b.SetBytes(8)
-	b.RunParallel(func(pb *testing.PB) {
-		rng := rand.New(CSRandSource{})
-		var f float64
-		for pb.Next() {
-			f = rng.Float64()
-		}
-		_ = f
+	benchmarkLocalFloat64(b, func() *rand.Rand {
+		return rand.New(CSRandSource{})
+	})
+}
+
+func BenchmarkLocalStatefulFloat64(b *testing.B) {
+	benchmarkLocalFloat64(b, func() *rand.Rand {
+		return rand.New(&CSStatefulRandSource{})
 	})
 }
 
 func BenchmarkMathLocalFloat64(b *testing.B) {
+	benchmarkLocalFloat64(b, func() *rand.Rand {
+		return rand.New(rand.NewSource(42))
+	})
+}
+
+func benchmarkLocalFloat64(b *testing.B, newRand func() *rand.Rand) {
+	b.Helper()
+
 	b.ReportAllocs()
 	b.SetBytes(8)
 	b.RunParallel(func(pb *testing.PB) {
-		rng := rand.New(rand.NewSource(42))
+		rng := newRand()
 		var f float64
 		for pb.Next() {
 			f = rng.Float64()
