@@ -5,6 +5,17 @@ import (
 	"testing"
 )
 
+func TestCSRandSource_Int63(t *testing.T) {
+	var f float64
+	allocs := testing.AllocsPerRun(1, func() {
+		f = Float64()
+	})
+	if allocs > 1 {
+		t.Fatalf("expected 0 allocs, got %f", allocs)
+	}
+	_ = f
+}
+
 func BenchmarkGlobalFloat64(b *testing.B) {
 	b.ReportAllocs()
 	b.SetBytes(8)
